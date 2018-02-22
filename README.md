@@ -3,19 +3,14 @@
 #include <stdio.h>
 int main()
 {
-  printf("hello, world\n");
   return 0;
 }
 ```
 output:
 ```objdump
-.LC0:
-  .string "hello, world"
 main:
   pushq %rbp
   movq %rsp, %rbp
-  movl $.LC0, %edi
-  call puts
   movl $0, %eax
   popq %rbp
   ret
