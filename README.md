@@ -218,3 +218,38 @@ main:
   ret
   ```
 Compiler is smart enough to see that this if branch will always be true so no comparison is performed in oreder to save cpu cycles.
+
+
+#Jump instruction & loops
+
+```cpp
+#include <stdio.h>
+void test(){
+    for(int i=0;i<10;i++){}
+}
+int main(){
+  return 0;
+}
+```
+output
+```nasm
+test():
+  pushq %rbp
+  movq %rsp, %rbp
+  movl $0, -4(%rbp)
+.L3:
+  cmpl $9, -4(%rbp)
+  jg .L4
+  addl $1, -4(%rbp)
+  jmp .L3
+.L4:
+  nop
+  popq %rbp
+  ret
+main:
+  pushq %rbp
+  movq %rsp, %rbp
+  movl $0, %eax
+  popq %rbp
+  ret
+```
