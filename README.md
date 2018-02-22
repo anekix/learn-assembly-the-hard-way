@@ -180,7 +180,7 @@ main:
   movl $0, %eax
   call scanf
   movl -4(%rbp), %eax
-  cmpl -8(%rbp), %eax
+  cmpl -8(%rbp), %eax  // -----------> actual comparison is carried out here
   jge .L3
   movl $10, -12(%rbp)
 .L3:
@@ -195,10 +195,7 @@ compiler optimization
 void test(){}
 int main()
 {
-
-    
     if(2<3){ 
-
         int zz = 10;
     }
 return 0;
