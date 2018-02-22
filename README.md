@@ -138,3 +138,86 @@ main:
   popq %rbp
   ret
 ```
+#conditionals
+
+```cpp
+#include <stdio.h>
+void test(){}
+int main()
+{
+    int x,y;
+    scanf("%d",x);
+    scanf("%d",y);
+    
+    if(x < y){ 
+
+        int zz = 10;
+    }
+return 0;
+}
+```
+```nasm
+test():
+  pushq %rbp
+  movq %rsp, %rbp
+  nop
+  popq %rbp
+  ret
+.LC0:
+  .string "%d"
+main:
+  pushq %rbp
+  movq %rsp, %rbp
+  subq $16, %rsp
+  movl -4(%rbp), %eax
+  movl %eax, %esi
+  movl $.LC0, %edi
+  movl $0, %eax
+  call scanf
+  movl -8(%rbp), %eax
+  movl %eax, %esi
+  movl $.LC0, %edi
+  movl $0, %eax
+  call scanf
+  movl -4(%rbp), %eax
+  cmpl -8(%rbp), %eax
+  jge .L3
+  movl $10, -12(%rbp)
+.L3:
+  movl $0, %eax
+  leave
+  ret
+```
+
+compiler optimization
+```cpp
+#include <stdio.h>
+void test(){}
+int main()
+{
+
+    
+    if(2<3){ 
+
+        int zz = 10;
+    }
+return 0;
+}
+```
+
+```nasm
+test():
+  pushq %rbp
+  movq %rsp, %rbp
+  nop
+  popq %rbp
+  ret
+main:
+  pushq %rbp
+  movq %rsp, %rbp
+  movl $10, -4(%rbp)
+  movl $0, %eax
+  popq %rbp
+  ret
+  ```
+Compiler is smart enough to see that this if branch will always be true so no comparison is performed in oreder to save cpu cycles.
